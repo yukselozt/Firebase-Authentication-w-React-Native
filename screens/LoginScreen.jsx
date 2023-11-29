@@ -3,6 +3,7 @@ import {
   KeyboardAvoidingView,
   Text,
   View,
+  Image,
   TextInput,
   TouchableOpacity,
 } from "react-native";
@@ -53,7 +54,14 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <View style={styles.imgContainer}>
+        <Image
+          style={{ tintColor: "black" }}
+          source={require("../assets/logo.png")}
+        />
+      </View>
       <View style={styles.inputContainer}>
+        <Text style={styles.fieldName}>Email</Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -61,6 +69,7 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={(text) => setEmail(text)}
           autoCapitalize="none"
         />
+        <Text style={styles.fieldName}>Password</Text>
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -100,8 +109,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
   },
+  imgContainer: {
+    width: "100%",
+    maxWidth: 400,
+    position: "absolute",
+    top: 0,
+    alignItems: "center",
+  },
   inputContainer: {
-    width: "80%",
+    width: "98%",
     marginBottom: 16,
   },
   input: {
@@ -114,7 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buttonContainer: {
-    width: "80%",
+    width: "98%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "blue",
     padding: 10,
-    width: "70%",
+    width: "100%",
     borderRadius: 5,
     marginBottom: 10,
     alignItems: "center",
