@@ -9,12 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { FIREBASE_AUTH } from "../firebase";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -36,28 +31,15 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
-  const handleSignUp = async () => {
-    setLoading(true);
-    try {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.imgContainer}>
         <Image
           style={{ tintColor: "black" }}
           source={require("../assets/logo.png")}
+          // source={{
+          //   uri: "https://www.pelliniturkiye.com/assets/images/pellini-logo-250x114.png",
+          // }}
         />
       </View>
       <View style={styles.inputContainer}>

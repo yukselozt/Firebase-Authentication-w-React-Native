@@ -1,7 +1,6 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { FIREBASE_AUTH } from "../firebase";
-import TokenRefresh from "../components/TokenRefresh";
 
 const HomeScreen = () => {
   return (

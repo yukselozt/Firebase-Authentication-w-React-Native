@@ -6,10 +6,13 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { Dropdown } from "react-native-element-dropdown";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { addDoc, collection } from "firebase/firestore";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebase";
 
 const RegisterSchema = Yup.object().shape({
   firstName: Yup.string().required("Please enter your firstname :)"),
@@ -29,6 +32,27 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const RegisterScreen = () => {
+  const auth = FIREBASE_AUTH;
+
+  const handleSignUp = async (values) => {
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      // const userCredentials = addDoc(collection(FIRESTORE_DB, "users"), {
+      //   title: "testtest",
+      //   done: false,
+      // });
+      // console.log("user : " + userCredentials);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Formik
@@ -61,7 +85,6 @@ const RegisterScreen = () => {
                   value={values.firstName}
                   onChangeText={handleChange("firstName")}
                   onBlur={() => setFieldTouched("firstName")}
-                  autoCapitalize="none"
                 />
                 {touched.firstName && errors.firstName && (
                   <Text style={styles.errorTxt}>{errors.firstName}</Text>
@@ -75,7 +98,6 @@ const RegisterScreen = () => {
                   value={values.lastName}
                   onChangeText={handleChange("lastName")}
                   onBlur={() => setFieldTouched("lastName")}
-                  autoCapitalize="none"
                 />
                 {touched.lastName && errors.lastName && (
                   <Text style={styles.errorTxt}>{errors.lastName}</Text>
@@ -139,8 +161,10 @@ const RegisterScreen = () => {
                   ]}
                   placeholder="Gender"
                   value={values.gender}
-                  onChange={(item) => handleChange("gender")(item.value)}
-                  onBlur={() => setFieldTouched("gender")}
+                  onChange={async (item) => {
+                    await setFieldTouched("gender");
+                    handleChange("gender")(item.value);
+                  }}
                 />
                 {touched.gender && errors.gender && (
                   <Text style={styles.errorTxt}>{errors.gender}</Text>
@@ -151,7 +175,7 @@ const RegisterScreen = () => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 onPress={() => {
-                  console.log(values);
+                  handleSignUp(values);
                 }}
                 disabled={!isValid}
                 style={[
